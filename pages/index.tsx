@@ -2,12 +2,7 @@ import Link from "next/link";
 import PhotosList from "@component/components/photosList/PhotosList";
 import { useEffect, useState } from "react";
 import { getPhotosList, getQueryPhotos } from "../lib/photoApi";
-
-interface Photo {
-  id: number;
-  url: string;
-  title: string;
-}
+import { Photo } from "../lib/types/photo";
 
 const Home = () => {
   const [page, setPage] = useState(1);

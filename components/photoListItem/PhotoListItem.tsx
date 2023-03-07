@@ -1,19 +1,10 @@
 import { ItemWrapper, Title } from "./PhotoListItem.styled";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Photo } from "../../lib/types/photo";
 
-export interface PhotoListItemProps {
-  id: number;
-  photoUrl: string;
-  photoTitle: string;
-}
-
-const PhotoListItem: React.FC<PhotoListItemProps> = ({
-  id,
-  photoUrl,
-  photoTitle,
-}) => {
+const PhotoListItem: React.FC<Photo> = ({ id, title, url }) => {
   const router = useRouter();
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
 
@@ -46,14 +37,12 @@ const PhotoListItem: React.FC<PhotoListItemProps> = ({
 
   return (
     <ItemWrapper>
-      <Title>{photoTitle != "" ? photoTitle : "No title on that :("}</Title>
-      <Image src={photoUrl} alt={photoTitle} width={500} height={500} />
+      <Title>{title != "" ? title : "No title on that :("}</Title>
+      <Image src={url} alt={title} width={500} height={500} />
       <button onClick={handleFavoriteToggle}>
         {isFavorited ? "Remove from favorites" : "Add to favorites"}
       </button>
-      <button onClick={() => handleClick(photoUrl, photoTitle)}>
-        Enter detail page
-      </button>
+      <button onClick={() => handleClick(url, title)}>Enter detail page</button>
     </ItemWrapper>
   );
 };

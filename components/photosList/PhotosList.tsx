@@ -1,7 +1,12 @@
 import PhotoListItem from "../photoListItem/PhotoListItem";
 import { Container } from "./PhotosList.styled";
+import { Photo } from "../../lib/types/photo";
 
-const PhotoList = ({ photos }: any) => {
+interface PhotoListProps {
+  photos: Photo[];
+}
+
+const PhotoList = ({ photos }: PhotoListProps) => {
   return (
     <Container>
       {photos &&
@@ -9,8 +14,8 @@ const PhotoList = ({ photos }: any) => {
           <PhotoListItem
             key={photo.id}
             id={photo.id}
-            photoUrl={photo.url}
-            photoTitle={photo.title}
+            url={photo.url}
+            title={photo.title}
           />
         ))}
     </Container>
