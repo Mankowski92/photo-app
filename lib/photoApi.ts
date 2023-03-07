@@ -9,7 +9,6 @@ export const getPhotosList = async (page: number, photosPerPage: number) => {
       },
     });
     const data = await response.json();
-    console.log("PHOTO LIST DATA: ", data);
     return data.photos.map((photo: any) => ({
       id: photo.id,
       url: photo.src.medium,
@@ -26,7 +25,6 @@ export const getQueryPhotos = async (
   photosPerPage: number,
   query: string
 ) => {
-  console.log("QUERY: ", query);
   const apiUrl = `https://api.pexels.com/v1/search/?page=${page}&per_page=${photosPerPage}&query=${query}`;
 
   try {
@@ -36,7 +34,6 @@ export const getQueryPhotos = async (
       },
     });
     const data = await response.json();
-    console.log("SEARCH DATA: ", data);
     return data.photos.map((photo: any) => ({
       id: photo.id,
       url: photo.src.medium,

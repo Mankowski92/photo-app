@@ -23,8 +23,6 @@ const PhotoListItem: React.FC<PhotoListItemProps> = ({
   }, [id]);
 
   const handleClick = (url: string, title: string) => {
-    console.log("photoUrl", url);
-    console.log("photoTitle", title);
     router.push({
       pathname: `/photos/${id}`,
       query: { url: url, title: title },
@@ -32,7 +30,6 @@ const PhotoListItem: React.FC<PhotoListItemProps> = ({
   };
 
   const handleFavoriteToggle = () => {
-    console.log("ID LIST ITEM: ", id);
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 
     if (isFavorited) {

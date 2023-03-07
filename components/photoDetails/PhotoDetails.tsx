@@ -23,7 +23,6 @@ const PhotoDetails: React.FC<PhotoDetailsProps> = ({
   }, [photoId]);
 
   const handleFavoriteToggle = () => {
-    console.log("ID DETAILS: ", photoId);
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 
     if (isFavorited) {

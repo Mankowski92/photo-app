@@ -15,7 +15,6 @@ const FavoritesList = () => {
   useEffect(() => {
     const fetchFavoritePhotos = async () => {
       const photos = await getFavoritesPhotos();
-      console.log("FAVORITE PHOTOS: ", photos);
       setFavoritePhotos(photos);
     };
     fetchFavoritePhotos();
