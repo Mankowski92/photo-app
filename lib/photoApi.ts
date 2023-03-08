@@ -1,5 +1,7 @@
 const API_KEY = process.env.NEXT_PUBLIC_PEXELS_API_KEY as string;
 
+//TODO implement React Query
+
 const fetchJson = async (url: string, headers: HeadersInit) => {
   const response = await fetch(url, { headers });
   return await response.json();

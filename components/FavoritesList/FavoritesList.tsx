@@ -6,8 +6,10 @@ import { Button } from "@component/styles/CommonStyles.styled";
 import { FavoritesWrapper } from "./FavoritesList.styled";
 import { noTitleMessage } from "@component/lib/constants";
 import ResponsiveImage from "@component/components/ResponsiveImage/ResponsiveImage";
+import { useRouter } from "next/router";
 
 const FavoritesList = () => {
+  const router = useRouter();
   const [favoritePhotos, setFavoritePhotos] = useState<Photo[]>([]);
 
   useEffect(() => {
@@ -37,6 +39,7 @@ const FavoritesList = () => {
       <Button onClick={() => router.back()}>Go back</Button>
       <Button onClick={handleClearFavorites}>Clear favorite list</Button>
       <div>
+        {favoritePhotos.length === 0 && <h1>Favorites list empty</h1>}
         {favoritePhotos.map((photo) => (
           <FavoritesWrapper key={photo.id}>
             <h3>{photo.title != "" ? photo.title : noTitleMessage}</h3>
