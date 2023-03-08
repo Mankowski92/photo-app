@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getFavoritesPhotos } from "../../lib/photoApi";
-import Image from "next/image";
 import { router } from "next/client";
 import { Photo } from "../../lib/types/photo";
+import { Button } from "@component/styles/CommonStyles.styled";
+import { FavoritesWrapper } from "./FavoritesList.styled";
+import { noTitleMessage } from "@component/lib/constants";
+import ResponsiveImage from "@component/components/ResponsiveImage/ResponsiveImage";
 
 const FavoritesList = () => {
   const [favoritePhotos, setFavoritePhotos] = useState<Photo[]>([]);
@@ -13,7 +16,7 @@ const FavoritesList = () => {
       setFavoritePhotos(photos);
     };
     fetchFavoritePhotos();
-  }, [favoritePhotos]);
+  }, []);
 
   const handleRemoveFromFavorites = useCallback((photoId: number) => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -26,24 +29,31 @@ const FavoritesList = () => {
 
   const handleClearFavorites = useCallback(() => {
     localStorage.setItem("favorites", JSON.stringify([]));
+    setFavoritePhotos([]);
   }, []);
 
   return (
-    <div>
-      <button onClick={() => router.back()}>Go back</button>
-      <button onClick={handleClearFavorites}>Clear favorite list</button>
+    <>
+      <Button onClick={() => router.back()}>Go back</Button>
+      <Button onClick={handleClearFavorites}>Clear favorite list</Button>
       <div>
         {favoritePhotos.map((photo) => (
-          <div key={photo.id}>
-            <h3>{photo.title != "" ? photo.title : "No title on that :("}</h3>
-            <Image src={photo.url} alt={photo.title} width={500} height={500} />
-            <button onClick={() => handleRemoveFromFavorites(photo.id)}>
+          <FavoritesWrapper key={photo.id}>
+            <h3>{photo.title != "" ? photo.title : noTitleMessage}</h3>
+            <ResponsiveImage
+              src={photo.url}
+              alt={photo.title || noTitleMessage}
+              width={photo.width}
+              height={photo.height}
+              bigVariant={true}
+            />
+            <Button onClick={() => handleRemoveFromFavorites(photo.id)}>
               Remove from favorites
-            </button>
-          </div>
+            </Button>
+          </FavoritesWrapper>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

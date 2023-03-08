@@ -5,10 +5,22 @@ const fetchJson = async (url: string, headers: HeadersInit) => {
   return await response.json();
 };
 
+const getTitleFromUrl = (url: string) => {
+  const match = url.match(/\/photo\/(.+)\//);
+  if (match && match.length > 1) {
+    let title = match[1].replace(/-/g, " ");
+    title = title.replace(/\d+$/, "");
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+  return null;
+};
+
 const parsePhoto = (photo: any) => ({
   id: photo.id,
   url: photo.src.medium,
-  title: photo.alt,
+  title: getTitleFromUrl(photo.url),
+  width: photo.width,
+  height: photo.height,
 });
 
 export const getPhotosList = async (page: number, photosPerPage: number) => {
@@ -17,6 +29,7 @@ export const getPhotosList = async (page: number, photosPerPage: number) => {
     const data = await fetchJson(apiUrl, { Authorization: API_KEY });
     return data.photos.map(parsePhoto);
   } catch (error) {
+    //TODO appropriate error handling
     console.log(error);
     return [];
   }
@@ -33,6 +46,7 @@ export const getQueryPhotos = async (
     const data = await fetchJson(apiUrl, { Authorization: API_KEY });
     return data.photos.map(parsePhoto);
   } catch (error) {
+    //TODO appropriate error handling
     console.log(error);
     return [];
   }
@@ -49,6 +63,7 @@ export const getFavoritesPhotos = async () => {
     });
     return await Promise.all(photoPromises);
   } catch (error) {
+    //TODO appropriate error handling
     console.log(error);
     return [];
   }

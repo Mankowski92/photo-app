@@ -1,41 +1,43 @@
 import { PhotoDetailsWrapper } from "./PhotoDetails.styled";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import { Button, ButtonWrapper } from "@component/styles/CommonStyles.styled";
+import React from "react";
 import { useRouter } from "next/router";
 import { Photo } from "../../lib/types/photo";
+import ResponsiveImage from "@component/components/ResponsiveImage/ResponsiveImage";
+import WebShare from "@component/components/WebShare/WebShare";
+import { noTitleMessage } from "@component/lib/constants";
+import useFavoriteToggle from "@component/utils/hooks/useFavoriteToggle";
 
-const PhotoDetails: React.FC<Photo> = ({ id, title, url }) => {
+const PhotoDetails: React.FC<Photo> = ({ id, title, url, width, height }) => {
   const router = useRouter();
-  const [isFavorited, setIsFavorited] = useState<boolean>(false);
 
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setIsFavorited(favorites.includes(id));
-  }, [id]);
+  const { isFavorited, handleFavoriteToggle } = useFavoriteToggle(id);
 
-  const handleFavoriteToggle = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+  const { asPath } = useRouter();
+  const origin =
+    typeof window !== "undefined" && window.location.origin
+      ? window.location.origin
+      : "";
 
-    if (isFavorited) {
-      localStorage.setItem(
-        "favorites",
-        JSON.stringify(favorites.filter((favId: number) => favId !== id))
-      );
-      setIsFavorited(false);
-    } else {
-      localStorage.setItem("favorites", JSON.stringify([...favorites, id]));
-      setIsFavorited(true);
-    }
-  };
+  const fullUrl = `${origin}${asPath}`;
 
   return (
     <PhotoDetailsWrapper>
-      <h1>{title != "" ? title : "No title on that :("}</h1>
-      <Image src={url} alt={title} width={800} height={800} />
-      <button onClick={() => router.back()}>Go back</button>
-      <button onClick={handleFavoriteToggle}>
-        {isFavorited ? "Remove from favorites" : "Add to favorites"}
-      </button>
+      <h1>Detail page of: {title != "" ? title : noTitleMessage}</h1>
+      <ResponsiveImage
+        src={url}
+        alt={title || noTitleMessage}
+        width={width}
+        height={height}
+        bigVariant={true}
+      />
+      <ButtonWrapper>
+        <Button onClick={() => router.back()}>Go back</Button>
+        <Button onClick={handleFavoriteToggle}>
+          {isFavorited ? "Remove from favorites" : "Add to favorites"}
+        </Button>
+        <WebShare url={fullUrl} />
+      </ButtonWrapper>
     </PhotoDetailsWrapper>
   );
 };

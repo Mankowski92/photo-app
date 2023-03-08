@@ -16,6 +16,8 @@ const PhotoList = ({ photos }: PhotoListProps) => {
             id={photo.id}
             url={photo.url}
             title={photo.title}
+            width={photo.width}
+            height={photo.height}
           />
         ))}
     </Container>

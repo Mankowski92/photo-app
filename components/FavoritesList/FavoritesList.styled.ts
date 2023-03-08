@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const PhotoDetailsWrapper = styled.div`
+export const FavoritesWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 1.5rem 0;
 `;

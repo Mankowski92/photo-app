@@ -1,48 +1,39 @@
 import { ItemWrapper, Title } from "./PhotoListItem.styled";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Photo } from "../../lib/types/photo";
+import { Button, ButtonWrapper } from "@component/styles/CommonStyles.styled";
+import ResponsiveImage from "@component/components/ResponsiveImage/ResponsiveImage";
+import { noTitleMessage } from "@component/lib/constants";
+import useFavoriteToggle from "@component/utils/hooks/useFavoriteToggle";
 
-const PhotoListItem: React.FC<Photo> = ({ id, title, url }) => {
+const PhotoListItem: React.FC<Photo> = ({ id, title, url, width, height }) => {
   const router = useRouter();
-  const [isFavorited, setIsFavorited] = useState<boolean>(false);
 
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setIsFavorited(favorites.includes(id));
-  }, [id]);
+  const { isFavorited, handleFavoriteToggle } = useFavoriteToggle(id);
 
-  const handleClick = (url: string, title: string) => {
+  const handleOpenDetails = () => {
     router.push({
       pathname: `/photos/${id}`,
-      query: { url: url, title: title },
+      query: { url, title, width, height },
     });
-  };
-
-  const handleFavoriteToggle = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-
-    if (isFavorited) {
-      localStorage.setItem(
-        "favorites",
-        JSON.stringify(favorites.filter((favId: number) => favId !== id))
-      );
-      setIsFavorited(false);
-    } else {
-      localStorage.setItem("favorites", JSON.stringify([...favorites, id]));
-      setIsFavorited(true);
-    }
   };
 
   return (
     <ItemWrapper>
-      <Title>{title != "" ? title : "No title on that :("}</Title>
-      <Image src={url} alt={title} width={500} height={500} />
-      <button onClick={handleFavoriteToggle}>
-        {isFavorited ? "Remove from favorites" : "Add to favorites"}
-      </button>
-      <button onClick={() => handleClick(url, title)}>Enter detail page</button>
+      <Title>{title || noTitleMessage}</Title>
+      <ResponsiveImage
+        src={url}
+        alt={title || noTitleMessage}
+        width={width}
+        height={height}
+      />
+      <ButtonWrapper>
+        <Button onClick={handleOpenDetails}>Detail page</Button>
+        <Button onClick={handleFavoriteToggle}>
+          {isFavorited ? "Remove from favorites" : "Add to favorites"}
+        </Button>
+      </ButtonWrapper>
     </ItemWrapper>
   );
 };
