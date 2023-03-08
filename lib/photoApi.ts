@@ -42,7 +42,6 @@ export const getQueryPhotos = async (
   photosPerPage: number,
   query: string
 ) => {
-  console.log(photosPerPage);
   const apiUrl = `https://api.pexels.com/v1/search?query=${query}&page=${page}`;
 
   try {
@@ -60,8 +59,8 @@ export const getFavoritesPhotos = async () => {
   try {
     const photoPromises = favoriteIds.map(async (id: number) => {
       const apiUrl = `https://api.pexels.com/v1/photos/${id}`;
-      const headers = { Authorization: API_KEY };
-      const data = await fetchJson(apiUrl, headers);
+      const data = await fetchJson(apiUrl, { Authorization: API_KEY });
+      console.log("1. data: ", data);
       return parsePhoto(data);
     });
     return await Promise.all(photoPromises);

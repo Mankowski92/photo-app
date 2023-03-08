@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getFavoritesPhotos } from "../../lib/photoApi";
-import { router } from "next/client";
 import { Photo } from "../../lib/types/photo";
 import { Button } from "@component/styles/CommonStyles.styled";
 import { FavoritesWrapper } from "./FavoritesList.styled";
@@ -11,7 +10,7 @@ import { useRouter } from "next/router";
 const FavoritesList = () => {
   const router = useRouter();
   const [favoritePhotos, setFavoritePhotos] = useState<Photo[]>([]);
-  const [removedFromFavorites, setRemovedFromFavorites] = useState(false); // new state variable
+  const [removedFromFavorites, setRemovedFromFavorites] = useState(false);
 
   useEffect(() => {
     const fetchFavoritePhotos = async () => {
@@ -21,6 +20,15 @@ const FavoritesList = () => {
     };
     fetchFavoritePhotos();
   }, [removedFromFavorites]);
+
+  useEffect(() => {
+    const fetchFavoritePhotos = async () => {
+      const photos = await getFavoritesPhotos();
+      setFavoritePhotos(photos);
+      setRemovedFromFavorites(false);
+    };
+    fetchFavoritePhotos();
+  }, []);
 
   const handleRemoveFromFavorites = useCallback((photoId: number) => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
