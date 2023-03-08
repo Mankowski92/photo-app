@@ -32,6 +32,12 @@ const Home = () => {
         });
   }, [page, photosPerPage, searchMode]);
 
+  useEffect(() => {
+    getPhotosList(1, photosPerPage).then((data: any) => {
+      setPhotos(data);
+    });
+  }, [photosPerPage]);
+
   const handleSearch = (page: number, photosPerPage: number, query: string) => {
     getQueryPhotos(page, photosPerPage, query).then((data: any) => {
       setSearchMode(true);
