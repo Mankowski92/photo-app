@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PhotosList from "@component/components/photosList/PhotosList";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getPhotosList, getQueryPhotos } from "../lib/photoApi";
 import { Photo } from "../lib/types/photo";
 import { Button, ButtonWrapper } from "@component/styles/CommonStyles.styled";
@@ -39,6 +39,12 @@ const Home = () => {
     });
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleSearch(page, photosPerPage, query);
+    }
+  };
+
   const handleExitSearchMode = () => {
     setQuery("");
     setSearchMode(false);
@@ -73,6 +79,7 @@ const Home = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           style={{ marginRight: "0.5rem", height: "25px" }}
+          onKeyDown={handleKeyDown}
         />
         <Button onClick={() => handleSearch(page, photosPerPage, query)}>
           Search
@@ -99,9 +106,9 @@ const Home = () => {
           {/*TODO fix this ugly code*/}
           <Button onClick={() => handleSetPhotosPerPage(8)}>8</Button>
           <Button onClick={() => handleSetPhotosPerPage(12)}>12</Button>
+          <Button onClick={() => handleSetPhotosPerPage(16)}>16</Button>
           <Button onClick={() => handleSetPhotosPerPage(20)}>20</Button>
-          <Button onClick={() => handleSetPhotosPerPage(28)}>28</Button>
-          <Button onClick={() => handleSetPhotosPerPage(40)}>40</Button>
+          <Button onClick={() => handleSetPhotosPerPage(24)}>24</Button>
         </div>
       </div>
       <PhotosList photos={photos} />
