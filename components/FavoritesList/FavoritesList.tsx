@@ -11,14 +11,16 @@ import { useRouter } from "next/router";
 const FavoritesList = () => {
   const router = useRouter();
   const [favoritePhotos, setFavoritePhotos] = useState<Photo[]>([]);
+  const [removedFromFavorites, setRemovedFromFavorites] = useState(false); // new state variable
 
   useEffect(() => {
     const fetchFavoritePhotos = async () => {
       const photos = await getFavoritesPhotos();
       setFavoritePhotos(photos);
+      setRemovedFromFavorites(false);
     };
     fetchFavoritePhotos();
-  }, []);
+  }, [removedFromFavorites]);
 
   const handleRemoveFromFavorites = useCallback((photoId: number) => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -27,6 +29,7 @@ const FavoritesList = () => {
       "favorites",
       JSON.stringify(favorites.filter((favId: number) => favId !== photoId))
     );
+    setRemovedFromFavorites(true);
   }, []);
 
   const handleClearFavorites = useCallback(() => {
