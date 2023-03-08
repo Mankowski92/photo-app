@@ -62,7 +62,7 @@ const FavoritesList = () => {
               bigVariant={true}
             />
             <Button onClick={() => handleRemoveFromFavorites(photo.id)}>
-              Remove from favorites
+              Remove from favorites list
             </Button>
           </FavoritesWrapper>
         ))}
