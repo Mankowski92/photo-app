@@ -42,7 +42,8 @@ export const getQueryPhotos = async (
   photosPerPage: number,
   query: string
 ) => {
-  const apiUrl = `https://api.pexels.com/v1/search/?page=${page}&per_page=${photosPerPage}&query=${query}`;
+  console.log(photosPerPage);
+  const apiUrl = `https://api.pexels.com/v1/search?query=${query}&page=${page}`;
 
   try {
     const data = await fetchJson(apiUrl, { Authorization: API_KEY });

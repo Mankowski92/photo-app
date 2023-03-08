@@ -30,7 +30,7 @@ const Home = () => {
       : getPhotosList(page, photosPerPage).then((data: any) => {
           setPhotos(data);
         });
-  }, [page, photosPerPage, query, searchMode]);
+  }, [page, photosPerPage, searchMode]);
 
   const handleSearch = (page: number, photosPerPage: number, query: string) => {
     getQueryPhotos(page, photosPerPage, query).then((data: any) => {
@@ -90,7 +90,7 @@ const Home = () => {
       </div>
       <div
         style={{
-          display: "flex",
+          display: searchMode ? "none" : "flex",
           justifyContent: "space-between",
           margin: "3rem 0",
         }}
@@ -104,11 +104,36 @@ const Home = () => {
         <div style={{ display: "flex", alignItems: "center" }}>
           <h2 style={{ margin: "0 1rem 0 0" }}>Photos per page:</h2>
           {/*TODO fix this ugly code*/}
-          <Button onClick={() => handleSetPhotosPerPage(8)}>8</Button>
-          <Button onClick={() => handleSetPhotosPerPage(12)}>12</Button>
-          <Button onClick={() => handleSetPhotosPerPage(16)}>16</Button>
-          <Button onClick={() => handleSetPhotosPerPage(20)}>20</Button>
-          <Button onClick={() => handleSetPhotosPerPage(24)}>24</Button>
+          <Button
+            disabled={searchMode}
+            onClick={() => handleSetPhotosPerPage(8)}
+          >
+            8
+          </Button>
+          <Button
+            disabled={searchMode}
+            onClick={() => handleSetPhotosPerPage(12)}
+          >
+            12
+          </Button>
+          <Button
+            disabled={searchMode}
+            onClick={() => handleSetPhotosPerPage(16)}
+          >
+            16
+          </Button>
+          <Button
+            disabled={searchMode}
+            onClick={() => handleSetPhotosPerPage(20)}
+          >
+            20
+          </Button>
+          <Button
+            disabled={searchMode}
+            onClick={() => handleSetPhotosPerPage(24)}
+          >
+            24
+          </Button>
         </div>
       </div>
       <PhotosList photos={photos} />

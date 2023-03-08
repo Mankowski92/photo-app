@@ -10,7 +10,7 @@ interface PhotoListProps {
 const PhotoList = ({ photos }: PhotoListProps) => {
   return (
     <Container>
-      {photos.length === 0 && <h1>Loading...</h1>}
+      {/*{photos.length === 0 && <h1>Loading...</h1>}*/}
       {photos &&
         photos.map((photo: any) => (
           <PhotoListItem
